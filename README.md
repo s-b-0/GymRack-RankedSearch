@@ -27,26 +27,32 @@ Users input their query in the search bar and receive real-time results generate
 ### Query 1
 
 **Input:** “clean boxing peace”
+
 **Output:**
+
 ![Image](/backend/static/images/GR-query1.png)
 
-Newest iteration provides more explainability of results: similarity score and relevant reviews. The results are also now ranked by similarity. We see in this example that the old “boolean search” could only find one place fitting the description, while our new search can offer multiple options as well as ones that are more peaceful.
+*Newest iteration provides more explainability of results: similarity score and relevant reviews. The results are also now ranked by similarity. We see in this example that the old “boolean search” could only find one place fitting the description, while our new search can offer multiple options as well as ones that are more peaceful.*
 
 ### Query 2
 
 **Input:** “I am looking for a gym that has a strong powerlifting focused coaching staff”
+
 **Output:**
+
 ![Image](/backend/static/images/GR-query2.png)
 
-Newest iteration includes relevant reviews that involve words from the query input. Here we see that the old version struggled with sentence style query which the newest version accommodates for by using cosine similarity and SVD.
+*Newest iteration includes relevant reviews that involve words from the query input. Here we see that the old version struggled with sentence style query which the newest version accommodates for by using cosine similarity and SVD.*
 
 ### Query 3
 
 **Input:** “lessons for zumba and pilates”
+
 **Output:**
+
 ![Image](/backend/static/images/GR-query3.png)
 
-A gym search system should include all kinds of fitness, so the newest iteration now allows users to search different fitness types apart from weight training. In the newest version, this query's relevant reviews tend to include the word “pilates.”
+*A gym search system should include all kinds of fitness, so the newest iteration now allows users to search different fitness types apart from weight training. In the newest version, this query's relevant reviews tend to include the word “pilates.”*
 
 ## Running locally
 
