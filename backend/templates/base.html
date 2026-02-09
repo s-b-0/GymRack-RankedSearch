@@ -1,0 +1,75 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} GymRack</title>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/gym_icon_orng.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
+    rel="stylesheet">
+
+<body>
+    <div class="full-body-container">
+        <div class="top-text">
+            <!-- orange color used for icon: #8C4A2D -->
+            <!-- blue color used for title text: #17404c -->
+            <div class="titleicon">
+                <img src="{{ url_for('static', filename='images/gym_title_blue_minspace.png') }}" height="200px" />
+                <img src="{{ url_for('static', filename='images/gym_icon_orng.png') }}" height="250px" />
+            </div>
+            <div class="input-box" onclick="sendFocus()">
+                <img src="{{ url_for('static', filename='images/search_mag.png') }}" />
+                <input placeholder="Find your new favorite gym in NYC" id="filter-text-val" onkeyup="filterText()">
+            </div>
+        </div>
+        <div id="answer-box">
+
+        </div>
+    </div>
+
+    <script>
+        let debounceTimeout;
+        const debounceInterval = 300; // milliseconds
+    
+        function answerBoxTemplate(name, rating, description, website, relevant, similarity) { //TODO: add other details
+            return `<a href=${website} target="_blank">
+                <div class='gym-tile'>
+                    <div class='entry-header'>
+                        <h3 class='entry-name'>${name}</h3>
+                        <p class='entry-rating'>Similarity: ${-1 * Math.round(similarity*100)}%</p>
+                    </div>
+                    <div class = rating-container>
+                        <span class='rating-number'>Rating: ${rating}   </span>
+                    </div>
+                    <p class='entry-desc'> Description : ${description}</p>
+                    <p class='entry-desc'> Relevant Review: ${relevant}</p>
+                </div>
+            </a>`
+        }
+    
+        function sendFocus() {
+            document.getElementById('filter-text-val').focus()
+        }
+    
+        function filterText() {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                const answerBox = document.getElementById("answer-box");
+                answerBox.innerHTML = ""; // Clear previous results
+                const searchText = document.getElementById("filter-text-val").value;
+                console.log(searchText);
+                fetch("/gyms?" + new URLSearchParams({ query: searchText }), {
+                    cache: 'no-store' // Prevents caching of AJAX requests
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        data.forEach(row => {
+                            let tempDiv = document.createElement("div");
+                            tempDiv.innerHTML = answerBoxTemplate(row.name, row.rating, row.description, row.website, row.relevant_review, row.similiarity);
+                            answerBox.appendChild(tempDiv);
+                        });
+                    });
+            }, debounceInterval);
+        }
+    </script>
+    
+</body>
